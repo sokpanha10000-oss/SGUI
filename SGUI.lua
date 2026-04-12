@@ -107,7 +107,7 @@ function SGUI:MakeWindow(cfg)
     -- ── Main Frame ────────────────────────────────────────
     local main = NewInstance("Frame", screenGui, {
         Name            = "Main",
-        Size            = UDim2.new(0, 560, 0, 390),
+        Size            = UDim2.new(0, 560, 0, 350),
         Position        = UDim2.new(0.5, -280, 0.5, -195),
         BackgroundColor3 = Theme.Background,
         BorderSizePixel = 0,
@@ -338,7 +338,49 @@ function SGUI:MakeWindow(cfg)
                 })
             end
 
+            -- Draggable mobile button (with click-vs-drag detection)
+            local mbDragging, mbDragInput, mbDragStart, mbStartPos
+            local mbDragged = false
+
+            mobileBtn.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1
+                or input.UserInputType == Enum.UserInputType.Touch then
+                    mbDragging = true
+                    mbDragged  = false
+                    mbDragStart = input.Position
+                    mbStartPos  = mobileBtn.Position
+                    input.Changed:Connect(function()
+                        if input.UserInputState == Enum.UserInputState.End then
+                            mbDragging = false
+                        end
+                    end)
+                end
+            end)
+
+            mobileBtn.InputChanged:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseMovement
+                or input.UserInputType == Enum.UserInputType.Touch then
+                    mbDragInput = input
+                end
+            end)
+
+            UserInputService.InputChanged:Connect(function(input)
+                if input == mbDragInput and mbDragging then
+                    local delta = input.Position - mbDragStart
+                    -- Only count as drag if moved more than 4px
+                    if math.abs(delta.X) > 4 or math.abs(delta.Y) > 4 then
+                        mbDragged = true
+                    end
+                    mobileBtn.Position = UDim2.new(
+                        mbStartPos.X.Scale, mbStartPos.X.Offset + delta.X,
+                        mbStartPos.Y.Scale, mbStartPos.Y.Offset + delta.Y
+                    )
+                end
+            end)
+
+            -- Only toggle if it was a tap, not a drag
             mobileBtn.MouseButton1Click:Connect(function()
+                if mbDragged then return end
                 isOpen = not isOpen
                 main.Visible = isOpen
             end)
