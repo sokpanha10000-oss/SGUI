@@ -107,7 +107,7 @@ function SGUI:MakeWindow(cfg)
     -- ── Main Frame ────────────────────────────────────────
     local main = NewInstance("Frame", screenGui, {
         Name            = "Main",
-        Size            = UDim2.new(0, 560, 0, 350),
+        Size            = UDim2.new(0, 560, 0, 390),
         Position        = UDim2.new(0.5, -280, 0.5, -195),
         BackgroundColor3 = Theme.Background,
         BorderSizePixel = 0,
