@@ -1,8 +1,3 @@
--- ============================================================
---  SGUI  |  Script Hub UI Library  |  by STEVEKHMER
---  Compatible with the MakeWindow / MakeTab API shown below
--- ============================================================
-
 local SGUI = {}
 SGUI.__index = SGUI
 
