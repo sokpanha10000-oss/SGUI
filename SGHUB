@@ -493,7 +493,7 @@ local Toggle = Tab:Toggle({
 })
 
 local Tab = Window:Tab({
-    Title = "+1 Speed Mtorcycle Escape",
+    Title = "+1 Speed Mtorcycle Escape & other",
     Icon = "monitor", -- optional
     Locked = false,
 })
@@ -588,6 +588,49 @@ local Toggle = Tab:Toggle({
                     end
 
                     task.wait(0.05) -- 🔥 SUPER FAST LOOP (20x per second)
+                end
+            end)
+        end
+    end
+})
+
+local Toggle = Tab:Toggle({
+    Title = "Auto Wins",
+    Desc = "Teleport to Glass & Neon super fast loop",
+    Icon = "",
+    Type = "Toggle",
+    Value = false,
+
+    Callback = function(state)
+        _G.TP_Loop = state
+
+        if state then
+            task.spawn(function()
+                while _G.TP_Loop do
+                    local player = game.Players.LocalPlayer
+                    local char = player.Character
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+
+                    local model = workspace:FindFirstChild("Misc")
+                        and workspace.Misc:FindFirstChild("Buttons")
+                        and workspace.Misc.Buttons:FindFirstChild("WinsBtn_10")
+
+                    if hrp and model then
+                        local glass = model:FindFirstChild("Glass")
+                        local neon = model:FindFirstChild("Neon")
+
+                        -- STEP 1: TP to Glass
+                        if glass then
+                            hrp.CFrame = glass.CFrame
+                        end
+
+                        -- STEP 2: TP to Neon instantly
+                        if neon then
+                            hrp.CFrame = neon.CFrame
+                        end
+                    end
+
+                    task.wait() -- ⚡ fastest possible loop (per frame)
                 end
             end)
         end
