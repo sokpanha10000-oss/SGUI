@@ -594,42 +594,39 @@ local Toggle = Tab:Toggle({
     end
 })
 
+local Tab = Window:Tab({
+    Title = "+1 health per click",
+    Icon = "monitor", -- optional
+    Locked = false,
+})
+
 local Toggle = Tab:Toggle({
-    Title = "Auto Wins (Super Fast)",
-    Desc = "Ultra fast TP loop to Button4",
+    Title = "Auto Wins",
+    Desc = "Ultra Speed TP",
     Icon = "",
     Type = "Toggle",
     Value = false,
 
     Callback = function(state)
-        _G.TPWins = state
+        _G.TP_FAST = state
 
         if state then
             task.spawn(function()
-                while _G.TPWins do
+                while _G.TP_FAST do
                     local player = game.Players.LocalPlayer
-                    local char = player.Character
-                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                    local char = player.Character or player.CharacterAdded:Wait()
+                    local hrp = char:FindFirstChild("HumanoidRootPart")
 
-                    if hrp then
-                        local btn = workspace:FindFirstChild("GiveWins")
-                        if btn then
-                            btn = btn:FindFirstChild("Button4")
-                            if btn then
-                                local part = btn:FindFirstChild("Part")
-                                local touch = btn:FindFirstChild("Touch")
+                    local target = workspace:FindFirstChild("Buttons") 
+                        and workspace.Buttons:FindFirstChild("Button16")
 
-                                -- Priority TP to Touch (better trigger)
-                                if touch then
-                                    hrp.CFrame = touch.CFrame + Vector3.new(0, 2, 0)
-                                elseif part then
-                                    hrp.CFrame = part.CFrame + Vector3.new(0, 2, 0)
-                                end
-                            end
-                        end
+                    if hrp and target then
+                        -- 🚀 ULTRA FAST TP (no delay)
+                        hrp.CFrame = target.CFrame + Vector3.new(0, 3, 0)
                     end
 
-                    task.wait() -- MAX SPEED (0 delay)
+                    -- ⚡ per frame speed (faster than wait)
+                    task.wait()
                 end
             end)
         end
