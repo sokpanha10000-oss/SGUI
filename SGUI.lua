@@ -37,7 +37,7 @@ function UILibrary:CreateWindow(Config)
     local MainFrame = Instance.new("Frame")
     MainFrame.Name = "Window_" .. GenerateID()
     MainFrame.Size = UDim2.new(0, 500, 0, 350)
-    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -300)
+    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -100)
     MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
     MainFrame.BorderSizePixel = 0
     MainFrame.Parent = self.ScreenGui
