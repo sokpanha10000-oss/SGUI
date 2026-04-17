@@ -121,8 +121,8 @@ function UI:CreateWindow(cfg)
     -- // Main Window Frame
     local WindowFrame = Create("Frame", {
         Name            = "WindowFrame",
-        Size            = UDim2.new(0, 560, 0, 400),
-        Position        = UDim2.new(0.5, -280, 0.5, -200),
+        Size            = UDim2.new(0, 560, 0, 350),
+        Position        = UDim2.new(0.5, -280, 0.5, -100),
         BackgroundColor3 = Colors.Background,
         BorderSizePixel = 0,
         Active          = true,
