@@ -91,7 +91,7 @@ function UILib:CreateWindow(Cfg)
     -- ── Drop shadow
     local Shadow      = Instance.new("Frame")
     Shadow.Name       = "Shadow"
-    Shadow.Size       = UDim2.new(0, 528, 0, 630)
+    Shadow.Size       = UDim2.new(0, 560, 0, 350)
     Shadow.Position   = UDim2.new(0.5, -264, 0.5, -315)
     Shadow.BackgroundColor3 = Color3.fromRGB(0,0,0)
     Shadow.BackgroundTransparency = 0.5
