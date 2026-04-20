@@ -11,20 +11,17 @@ local Tab = Window:Tab({
     Locked = false,
 })
 
-local Tab = Window:Tab({
-    Title = "Mine for Lucky Blocks",
-    Locked = false,
-})
-
 local Section = Tab:Section({ 
     Title = "Movement" 
 })
-
-local Section = Tab:Section({ 
-    Title = "Mine" 
+local Section2 = Tab:Section({ 
+    Title = "Mine for Lucky Blocks" 
+})
+local Section3 = Tab:Section({ 
+    Title = "+1 fat to fit" 
 })
 
-local Button = Tab:Button({
+local Button = Section:Button({
     Title = "Reset Character",
     Desc = "Smooth reset",
     Callback = function()
@@ -43,7 +40,7 @@ local player = game:GetService("Players").LocalPlayer
 local speedValue = 16 -- default walk speed
 local enabled = false
 
-local Input = Tab:Input({
+local Input = Section:Input({
     Title = "Speed Value",
     Value = "16",
     Placeholder = "Enter number...",
@@ -63,7 +60,7 @@ local Input = Tab:Input({
     end
 })
 
-local Toggle = Tab:Toggle({
+local Toggle = Section:Toggle({
     Title = "Speed",
     Desc = "Enable / Disable Speed",
     Value = false,
@@ -111,7 +108,7 @@ local function GetPlayerList()
 end
 
 --// Dropdown (Player Selector)
-local Dropdown = Tab:Dropdown({
+local Dropdown = Section:Dropdown({
     Title = "Select Player",
     Values = GetPlayerList(),
     Value = nil,
@@ -130,7 +127,7 @@ Players.PlayerRemoving:Connect(function()
     Dropdown:Refresh(GetPlayerList(), true)
 end)
 
-local Toggle = Tab:Toggle({
+local Toggle = Section:Toggle({
     Title = "TP To Player",
     Desc = "Teleport every 1 second",
     Value = false,
@@ -160,7 +157,7 @@ local Toggle = Tab:Toggle({
     end
 })
 
-local Toggle = Tab:Toggle({
+local Toggle = Section:Toggle({
     Title = "Auto Get Mythical",
     Desc = "Auto farm + give super speed",
     Type = "Toggle",
@@ -254,7 +251,7 @@ local Toggle = Tab:Toggle({
     end
 })
 
-local Toggle = Tab:Toggle({
+local Toggle = Section:Toggle({
     Title = "Auto Get Mythical",
     Desc = "Go Zone 5 first, then farm SpawnedItem + return to Spawn",
     Type = "Toggle",
@@ -337,7 +334,7 @@ local Toggle = Tab:Toggle({
     end
 })
 
-local Toggle = Tab:Toggle({
+local Toggle = Section:Toggle({
     Title = "AUTO MYTHIC",
     Desc = "Zone 5 → Farm SpawnedItem → then SpawnLocation",
     Icon = "door-open",
@@ -446,12 +443,6 @@ local Toggle = Tab:Toggle({
             print("⛔ Auto Farm Stopped")
         end
     end
-})
-
-local Tab = Window:Tab({
-    Title = "+1 fat ti fit",
-    Icon = "monitor", -- optional
-    Locked = false,
 })
 
 local Toggle = Tab:Toggle({
