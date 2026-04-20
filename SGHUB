@@ -18,10 +18,10 @@ local Section2 = Tab:Section({
     Title = "Mine for Lucky Blocks" 
 })
 local Section3 = Tab:Section({ 
-    Title = "+1 speed motorcycle escape" 
+    Title = "+1 fat ti fit" 
 })
 local Section4 = Tab:Section({ 
-    Title = "+1 fat to fit" 
+    Title = "+1 speed motorcycle escape" 
 })
 
 local Button = Section:Button({
