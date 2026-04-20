@@ -11,8 +11,17 @@ local Tab = Window:Tab({
     Locked = false,
 })
 
+local Tab = Window:Tab({
+    Title = "Mine for Lucky Blocks",
+    Locked = false,
+})
+
 local Section = Tab:Section({ 
     Title = "Movement" 
+})
+
+local Section = Tab:Section({ 
+    Title = "Mine" 
 })
 
 local Button = Tab:Button({
@@ -36,7 +45,6 @@ local enabled = false
 
 local Input = Tab:Input({
     Title = "Speed Value",
-    Desc = "Enter WalkSpeed",
     Value = "16",
     Placeholder = "Enter number...",
     Callback = function(input)
@@ -58,7 +66,6 @@ local Input = Tab:Input({
 local Toggle = Tab:Toggle({
     Title = "Speed",
     Desc = "Enable / Disable Speed",
-    Type = "Toggle",
     Value = false,
     Callback = function(state)
         enabled = state
@@ -106,7 +113,6 @@ end
 --// Dropdown (Player Selector)
 local Dropdown = Tab:Dropdown({
     Title = "Select Player",
-    Desc = "Choose player to teleport to",
     Values = GetPlayerList(),
     Value = nil,
     Callback = function(option)
@@ -127,7 +133,6 @@ end)
 local Toggle = Tab:Toggle({
     Title = "TP To Player",
     Desc = "Teleport every 1 second",
-    Type = "Toggle",
     Value = false,
     Callback = function(state)
         if state then
@@ -153,12 +158,6 @@ local Toggle = Tab:Toggle({
             end
         end
     end
-})
-
-local Tab = Window:Tab({
-    Title = "Mine for Lucky Blocks",
-    Icon = "monitor", -- optional
-    Locked = false,
 })
 
 local Toggle = Tab:Toggle({
