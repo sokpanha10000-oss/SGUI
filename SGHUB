@@ -20,6 +20,9 @@ local Section2 = Tab:Section({
 local Section3 = Tab:Section({ 
     Title = "+1 speed motorcycle escape" 
 })
+local Section4 = Tab:Section({ 
+    Title = "+1 fat to fit" 
+})
 
 local Button = Section:Button({
     Title = "Reset Character",
@@ -477,7 +480,7 @@ local Toggle = Section3:Toggle({
     end
 })
 
-local Toggle = Section3:Toggle({
+local Toggle = Section4:Toggle({
     Title = "Auto Wins",
     Desc = "TP you to last area & auto wins",
     Value = false,
@@ -526,7 +529,7 @@ local Toggle = Section3:Toggle({
     end
 })
 
-local Toggle = Section3:Toggle({
+local Toggle = Section4:Toggle({
     Title = "Auto Win (SUPER FAST)",
     Desc = "Ultra Speed (beta)",
     Value = false,
