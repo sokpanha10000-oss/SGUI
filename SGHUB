@@ -1,21 +1,23 @@
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/sokpanha10000-oss/SKUI/refs/heads/main/SKUIV2.luau"))()
 
-local Window = WindUI:CreateWindow({
-    Title = "SG Hub",
-    Icon = "door-open", -- lucide icon. optional
-    Author = "by STEVEKHMER", -- optional
+local Window = Library:CreateWindow({
+    Title = "SK Hub",
+    Desc = "",
+    Author = " By STEVEKHMER",
 })
 
 local Tab = Window:Tab({
     Title = "Main",
-    Icon = "monitor", -- optional
     Locked = false,
+})
+
+local Section = Tab:Section({ 
+    Title = "Movement" 
 })
 
 local Button = Tab:Button({
     Title = "Reset Character",
     Desc = "Smooth reset",
-    Locked = false,
     Callback = function()
         local player = game:GetService("Players").LocalPlayer
         if player.Character then
@@ -36,7 +38,6 @@ local Input = Tab:Input({
     Title = "Speed Value",
     Desc = "Enter WalkSpeed",
     Value = "16",
-    Type = "Input",
     Placeholder = "Enter number...",
     Callback = function(input)
         local num = tonumber(input)
