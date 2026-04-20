@@ -20,6 +20,9 @@ local Section2 = Tab:Section({
 local Section3 = Tab:Section({ 
     Title = "+1 fat to fit" 
 })
+local Section3 = Tab:Section({ 
+    Title = "+1 speed motorcycle escape" 
+})
 
 local Button = Section:Button({
     Title = "Reset Character",
@@ -157,10 +160,9 @@ local Toggle = Section:Toggle({
     end
 })
 
-local Toggle = Section:Toggle({
+local Toggle = Section2:Toggle({
     Title = "Auto Get Mythical",
     Desc = "Auto farm + give super speed",
-    Type = "Toggle",
     Value = false,
 
     Callback = function(state)
@@ -251,10 +253,9 @@ local Toggle = Section:Toggle({
     end
 })
 
-local Toggle = Section:Toggle({
+local Toggle = Section2:Toggle({
     Title = "Auto Get Mythical",
     Desc = "Go Zone 5 first, then farm SpawnedItem + return to Spawn",
-    Type = "Toggle",
     Value = false,
 
     Callback = function(state)
@@ -334,11 +335,9 @@ local Toggle = Section:Toggle({
     end
 })
 
-local Toggle = Section:Toggle({
+local Toggle = Section2:Toggle({
     Title = "AUTO MYTHIC",
     Desc = "Zone 5 → Farm SpawnedItem → then SpawnLocation",
-    Icon = "door-open",
-    Type = "Toggle",
     Value = false,
 
     Callback = function(state)
@@ -445,11 +444,9 @@ local Toggle = Section:Toggle({
     end
 })
 
-local Toggle = Tab:Toggle({
+local Toggle = Section3:Toggle({
     Title = "Tap TP Infinite",
     Desc = "Tap anywhere to teleport (no loop)",
-    Icon = "door-open",
-    Type = "Toggle",
     Value = false,
 
     Callback = function(state)
@@ -483,17 +480,9 @@ local Toggle = Tab:Toggle({
     end
 })
 
-local Tab = Window:Tab({
-    Title = "+1 Speed Mtorcycle Escape & other",
-    Icon = "monitor", -- optional
-    Locked = false,
-})
-
-local Toggle = Tab:Toggle({
+local Toggle = Section3:Toggle({
     Title = "Auto Wins",
     Desc = "TP you to last area & auto wins",
-    Icon = "",
-    Type = "Toggle",
     Value = false,
 
     Callback = function(state)
@@ -540,11 +529,9 @@ local Toggle = Tab:Toggle({
     end
 })
 
-local Toggle = Tab:Toggle({
+local Toggle = Section3:Toggle({
     Title = "Auto Win (SUPER FAST)",
     Desc = "Ultra Speed (beta)",
-    Icon = "",
-    Type = "Toggle",
     Value = false,
 
     Callback = function(state)
@@ -579,45 +566,6 @@ local Toggle = Tab:Toggle({
                     end
 
                     task.wait(0.05) -- 🔥 SUPER FAST LOOP (20x per second)
-                end
-            end)
-        end
-    end
-})
-
-local Tab = Window:Tab({
-    Title = "+1 health per click",
-    Icon = "monitor", -- optional
-    Locked = false,
-})
-
-local Toggle = Tab:Toggle({
-    Title = "Auto Wins",
-    Desc = "Ultra Speed TP",
-    Icon = "",
-    Type = "Toggle",
-    Value = false,
-
-    Callback = function(state)
-        _G.TP_FAST = state
-
-        if state then
-            task.spawn(function()
-                while _G.TP_FAST do
-                    local player = game.Players.LocalPlayer
-                    local char = player.Character or player.CharacterAdded:Wait()
-                    local hrp = char:FindFirstChild("HumanoidRootPart")
-
-                    local target = workspace:FindFirstChild("Buttons") 
-                        and workspace.Buttons:FindFirstChild("Button16")
-
-                    if hrp and target then
-                        -- 🚀 ULTRA FAST TP (no delay)
-                        hrp.CFrame = target.CFrame + Vector3.new(0, 3, 0)
-                    end
-
-                    -- ⚡ per frame speed (faster than wait)
-                    task.wait()
                 end
             end)
         end
