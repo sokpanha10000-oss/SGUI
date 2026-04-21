@@ -625,7 +625,7 @@ local Toggle  = Section5:Toggle({
     end
 })
 
-local Button = Section:Button({ 
+local Button = Section5:Button({ 
     Title = "Remove Rat", 
     Desc = "Deletes every model named Mouse", 
 
