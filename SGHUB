@@ -11,6 +11,11 @@ local Tab = Window:Tab({
     Locked = false,
 })
 
+local Tab2 = Window:Tab({
+    Title = "Cheese Escapes [Horror]",
+    Locked = false,
+})
+
 local Section = Tab:Section({ 
     Title = "Movement" 
 })
@@ -22,6 +27,10 @@ local Section3 = Tab:Section({
 })
 local Section4 = Tab:Section({ 
     Title = "+1 speed motorcycle escape" 
+})
+
+local Section5 = Tab2:Section({ 
+    Title = "Cheese Escapes [Horror]" 
 })
 
 local Button = Section:Button({
@@ -570,6 +579,63 @@ local Toggle = Section4:Toggle({
             end)
         end
     end
+})
+
+local Toggle  = Section5:Toggle({ 
+    Title = "Auto Cheese", 
+    Desc = "TP", 
+    Value = false, 
+
+    Callback = function(state)
+        _G.CheeseFarm = state
+
+        if state then
+            task.spawn(function()
+                while _G.CheeseFarm do
+                    local player = game.Players.LocalPlayer
+                    local char = player.Character or player.CharacterAdded:Wait()
+                    local root = char:WaitForChild("HumanoidRootPart")
+
+                    local folder = workspace:FindFirstChild("FindCheese")
+                    if folder then
+                        for _, model in ipairs(folder:GetChildren()) do
+                            if model:IsA("Model") then
+                                local cheese = model:FindFirstChild("Cheese")
+
+                                if cheese and cheese:IsA("BasePart") then
+                                    -- ⚡ TP
+                                    root.CFrame = cheese.CFrame + Vector3.new(0, 2, 0)
+
+                                    -- 🖱️ BETTER CLICK (distance-safe)
+                                    local cd = cheese:FindFirstChildOfClass("ClickDetector")
+                                    if cd then
+                                        fireclickdetector(cd, 0)
+                                    end
+
+                                    task.wait(0.05)
+                                end
+                            end
+                        end
+                    end
+
+                    task.wait()
+                end
+            end)
+        end
+    end
+})
+
+local Button = Section:Button({ 
+    Title = "Remove Rat", 
+    Desc = "Deletes every model named Mouse", 
+
+    Callback = function()
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj:IsA("Model") and obj.Name == "Mouse" then
+                obj:Destroy()
+            end
+        end
+    end 
 })
 
 Window:Notify({
