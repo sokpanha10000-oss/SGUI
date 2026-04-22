@@ -638,35 +638,6 @@ local Button = Section5:Button({
     end 
 })
 
-local Button = Section5:Button({ 
-    Title = "Mouse Return", 
-    Desc = "", 
-
-    Callback = function()
-        _G.MouseBackup = _G.MouseBackup or {}
-
-        -- 💾 FIRST TIME: SAVE EXISTING MOUSE MODELS
-        for _, obj in ipairs(workspace:GetDescendants()) do
-            if obj:IsA("Model") and obj.Name == "Mouse" then
-                if not _G.MouseBackup[obj] then
-                    _G.MouseBackup[obj] = obj:Clone()
-                end
-            end
-        end
-
-        -- 🔁 RESTORE / ADD BACK
-        for _, clone in pairs(_G.MouseBackup) do
-            if clone and clone.Parent == nil then
-                clone.Parent = workspace
-            else
-                -- if missing completely, re-add fresh clone
-                local newClone = clone:Clone()
-                newClone.Parent = workspace
-            end
-        end
-    end 
-})
-
 Window:Notify({
     Title    = "SK Hub",
     Desc     = "Thank you for using it",
