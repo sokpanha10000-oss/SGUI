@@ -4,6 +4,8 @@ local Window = Library:CreateWindow({
     Title = "SK Hub",
     Desc = "",
     Author = " By STEVEKHMER",
+    LogoImage = "rbxassetid://128185233852701",
+    WindowColor = "Red",
 })
 
 local Tab = Window:Tab({
@@ -130,14 +132,13 @@ local Dropdown = Section:Dropdown({
     end
 })
 
---// Auto Refresh Player List
-Players.PlayerAdded:Connect(function()
-    Dropdown:Refresh(GetPlayerList(), true)
-end)
-
-Players.PlayerRemoving:Connect(function()
-    Dropdown:Refresh(GetPlayerList(), true)
-end)
+local Button = Section:Button({ 
+      Title = "Button", 
+     Callback = function() 
+    Dropdown:Refresh(enabled and {" GetPlayerList() "})
+   end
+end 
+})
 
 local Toggle = Section:Toggle({
     Title = "TP To Player",
