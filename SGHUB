@@ -49,125 +49,167 @@ local Button = Section:Button({
     end
 })
 
-local player = game:GetService("Players").LocalPlayer
+local speedValue = 70
+local speedEnabled = false
+local connection
 
-local speedValue = 16 -- default walk speed
-local enabled = false
+-- INPUT (Change Speed)
+local Input = Section:Input({ 
+    Title = "Speed Value", 
+    Placeholder = "16 - 1000", 
+    Value = "70", 
 
-local Input = Section:Input({
-    Title = "Speed Value",
-    Value = "16",
-    Placeholder = "Enter number...",
-    Callback = function(input)
-        local num = tonumber(input)
+    Callback = function(t)
+        local num = tonumber(t)
         if num then
-            speedValue = num
-            print("Speed set to: " .. speedValue)
-
-            -- apply instantly if toggle is ON
-            if enabled and player.Character and player.Character:FindFirstChild("Humanoid") then
-                player.Character.Humanoid.WalkSpeed = speedValue
-            end
-        else
-            warn("Invalid number")
+            speedValue = math.clamp(num, 16, 1000)
         end
-    end
+    end 
 })
 
-local Toggle = Section:Toggle({
-    Title = "Speed",
-    Desc = "Enable / Disable Speed",
-    Value = false,
+-- TOGGLE (Enable / Disable Speed)
+local Toggle  = Section:Toggle({ 
+    Title = "Custom Speed", 
+    Desc = "Enable / Disable WalkSpeed", 
+    Value = false, 
+
     Callback = function(state)
-        enabled = state
+        speedEnabled = state
+        local player = game.Players.LocalPlayer
 
-        local char = player.Character or player.CharacterAdded:Wait()
-        local hum = char:WaitForChild("Humanoid")
-
-        if enabled then
-            hum.WalkSpeed = speedValue
-            print("Speed Enabled")
+        if state then
+            connection = game:GetService("RunService").RenderStepped:Connect(function()
+                if player.Character and player.Character:FindFirstChild("Humanoid") then
+                    player.Character.Humanoid.WalkSpeed = speedValue
+                end
+            end)
         else
-            hum.WalkSpeed = 16 -- reset to normal
-            print("Speed Disabled")
+            if connection then
+                connection:Disconnect()
+                connection = nil
+            end
+
+            -- Reset to default
+            if player.Character and player.Character:FindFirstChild("Humanoid") then
+                player.Character.Humanoid.WalkSpeed = 16
+            end
         end
-    end
+    end 
 })
 
--- KEEP APPLY AFTER RESPAWN (pro feature)
-player.CharacterAdded:Connect(function(char)
-    local hum = char:WaitForChild("Humanoid")
+local jumpValue = 50
+local jumpEnabled = false
+local connection
 
-    if enabled then
-        hum.WalkSpeed = speedValue
-    end
-end)
+-- INPUT (Change Jump Power)
+local Input = Section:Input({ 
+    Title = "Jump Power", 
+    Placeholder = "50 - 300", 
+    Value = "50", 
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+    Callback = function(t)
+        local num = tonumber(t)
+        if num then
+            jumpValue = math.clamp(num, 50, 300)
+        end
+    end 
+})
 
---// Selected Player Variable
-local SelectedPlayer = nil
-local TPConnection = nil
+-- TOGGLE (Enable / Disable Jump Boost)
+local Toggle  = Section:Toggle({ 
+    Title = "Custom Jump", 
+    Desc = "Enable / Disable Jump Boost", 
+    Value = false, 
 
---// Function to get player names
-local function GetPlayerList()
+    Callback = function(state)
+        jumpEnabled = state
+        local player = game.Players.LocalPlayer
+
+        if state then
+            connection = game:GetService("RunService").RenderStepped:Connect(function()
+                local char = player.Character
+                if char and char:FindFirstChild("Humanoid") then
+                    char.Humanoid.UseJumpPower = true
+                    char.Humanoid.JumpPower = jumpValue
+                end
+            end)
+        else
+            if connection then
+                connection:Disconnect()
+                connection = nil
+            end
+
+            -- Reset default jump
+            local char = player.Character
+            if char and char:FindFirstChild("Humanoid") then
+                char.Humanoid.JumpPower = 50
+            end
+        end
+    end 
+})
+
+local selectedPlayer = nil
+local tpEnabled = false
+local tpConnection
+
+-- FUNCTION: Get Player List
+local function getPlayers()
     local list = {}
-    for _, plr in pairs(Players:GetPlayers()) do
-        if plr ~= LocalPlayer then
-            table.insert(list, plr.Name)
+    for _, p in ipairs(game.Players:GetPlayers()) do
+        if p ~= game.Players.LocalPlayer then
+            table.insert(list, p.Name)
         end
     end
     return list
 end
 
---// Dropdown (Player Selector)
-local Dropdown = Section:Dropdown({
-    Title = "Select Player",
-    Values = GetPlayerList(),
-    Value = nil,
-    Callback = function(option)
-        SelectedPlayer = Players:FindFirstChild(option)
-        print("Selected:", option)
-    end
+-- DROPDOWN (Select Player)
+local Dropdown = Section:Dropdown({ 
+    Title = "Select Player", 
+    Values = getPlayers(), 
+    Value = "", 
+
+    Callback = function(name)
+        selectedPlayer = name
+    end 
 })
 
+-- BUTTON (Refresh Player List)
 local Button = Section:Button({ 
-      Title = "Button", 
-     Callback = function() 
-    Dropdown:Refresh(enabled and {" GetPlayerList() "})
-   end
-end 
+    Title = "Refresh Players", 
+
+    Callback = function()
+        Dropdown:Refresh(getPlayers())
+    end 
 })
 
-local Toggle = Section:Toggle({
-    Title = "TP To Player",
-    Desc = "Teleport every 1 second",
-    Value = false,
+-- TOGGLE (Ultra Fast TP Loop)
+local Toggle = Section:Toggle({ 
+    Title = "TP To Player (Ultra Speed)", 
+    Desc = "Loop teleport to selected player", 
+    Value = false, 
+
     Callback = function(state)
+        tpEnabled = state
+        local player = game.Players.LocalPlayer
+
         if state then
-            TPConnection = task.spawn(function()
-                while true do
-                    task.wait(1)
+            tpConnection = game:GetService("RunService").RenderStepped:Connect(function()
+                local char = player.Character
+                local target = game.Players:FindFirstChild(selectedPlayer)
 
-                    if not SelectedPlayer or not SelectedPlayer.Character then continue end
-                    if not LocalPlayer.Character then continue end
-
-                    local targetHRP = SelectedPlayer.Character:FindFirstChild("HumanoidRootPart")
-                    local myHRP = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-
-                    if targetHRP and myHRP then
-                        myHRP.CFrame = targetHRP.CFrame + Vector3.new(0, 3, 0)
-                    end
+                if char and char:FindFirstChild("HumanoidRootPart") and target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                    -- SUPER FAST TP (no delay)
+                    char.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,2)
                 end
             end)
         else
-            if TPConnection then
-                task.cancel(TPConnection)
-                TPConnection = nil
+            if tpConnection then
+                tpConnection:Disconnect()
+                tpConnection = nil
             end
         end
-    end
+    end 
 })
 
 local Toggle = Section2:Toggle({
