@@ -1,4 +1,4 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/sokpanha10000-oss/SKUI/refs/heads/main/SKUIV2.luau"))()
+local Library = loadstring(game:HttpGet("https://pastefy.app/1kFFcTWj/raw"))()
 
 local Window = Library:CreateWindow({
     Title = "SK Hub",
