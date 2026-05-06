@@ -6,7 +6,7 @@ local Window = Library:CreateWindow({
     Image = "rbxassetid://128185233852701"
 })
 
-local MainTab = Window:AddTab("Main Menu")
+local MainTab = Window:AddTab("Main")
 
 local MainGroup = MainTab:AddLeftGroupbox("All Features")
 
@@ -66,9 +66,8 @@ MainGroup:AddButton({
     end 
 })
 
-Window:Notify({
-    Title    = "SK Hub",
-    Desc     = "Thank you for using it",
-    ImageL   = "rbxassetid://128185233852701",  -- custom logo (optional)
-    Duration = 5                                 -- seconds (optional, default 10)
+Library:Notify({
+    Title = "Loaded",
+    Description = "Everything is in one tab.",
+    Duration = 3
 })
